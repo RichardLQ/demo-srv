@@ -2,6 +2,7 @@ package stub
 
 import (
 	"context"
+	"github.com/RichardLQ/user-srv/auth"
 )
 
 var UserService = &userServiceServer{}
@@ -11,13 +12,24 @@ type userServiceServer struct {
 }
 
 //GetUserToken 获取token
-func (this *userServiceServer) GetUserToken(ctx context.Context, req *UserReq) (rsp *UserRsp, err error) {
-	//m := auth.MyClaims{}
-	rsp = &UserRsp{
+func (this *userServiceServer) GetUserToken(ctx context.Context, req *UserReq) (*UserRsp,error) {
+	rsp := UserRsp{
 		Code: 200,
-		Data: req.Account,
+		Msg: "token请求成功",
+		Data: "",
 	}
-	return
+	m := &auth.MyClaims{
+		UserName: req.Account,
+		Password: req.Password,
+	}
+	token,err:=m.Encryption()
+	if err != nil {
+		rsp.Code = 201
+		rsp.Msg = err.Error()
+		return &rsp,nil
+	}
+	rsp.Data = token
+	return &rsp,nil
 }
 
 //GetUserInfo 获取用户信息

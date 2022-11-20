@@ -6,7 +6,7 @@ package stub;
 
 message UserReq {
   string account = 1;
-  int32 password = 2;
+  string password = 2;
 };
 
 message UserRsp {
@@ -37,7 +37,8 @@ message User {
 service UserService {
   rpc GetUserToken (UserReq) returns (UserRsp){
     option (google.api.http) = {
-      post: "/user/login"
+      post: "/user/login",
+      body: "*"
     };
   }
   rpc GetUserInfo (UserInfoReq) returns (UserInfoRsp){

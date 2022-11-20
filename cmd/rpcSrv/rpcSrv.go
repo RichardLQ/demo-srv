@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/RichardLQ/confs"
-	"github.com/RichardLQ/user-srv/client"
 	"github.com/RichardLQ/user-srv/proto/stub"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
@@ -13,7 +11,6 @@ import (
 )
 
 func main() {
-	confs.NewStart().BinComb(&client.Global)
 	gwmux := runtime.NewServeMux()
 	opt := []grpc.DialOption{grpc.WithInsecure()}
 	err := stub.RegisterUserServiceHandlerFromEndpoint(context.Background(),

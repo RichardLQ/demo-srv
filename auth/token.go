@@ -16,10 +16,6 @@ type MyClaims struct {
 	jwt.StandardClaims
 }
 
-
-
-
-
 func (m *MyClaims) authVerify() error {
 	u := user.Users{
 		UserName: m.UserName,
@@ -29,7 +25,8 @@ func (m *MyClaims) authVerify() error {
 		return err
 	}
 	var flag = false
-	for _, users := range list {
+	for _, users := range *list {
+		fmt.Println(users.Password)
 		if users.Password == m.Password {
 			flag = true
 		}
@@ -46,6 +43,7 @@ func (m *MyClaims) Encryption() (string, error) {
 	if err!=nil{
 		return "", err
 	}
+
 	claims := MyClaims{
 		UserName: m.UserName,
 		Password: m.Password,
@@ -57,7 +55,7 @@ func (m *MyClaims) Encryption() (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token_string, err := token.SignedString(client.Global.UserConf.JwtKey)
+	token_string, err := token.SignedString([]byte(client.Global.UserConf.JwtKey))
 	if err != nil {
 		return "", err
 	}
@@ -68,7 +66,7 @@ func (m *MyClaims) Encryption() (string, error) {
 func (m *MyClaims) Decryption() (interface{}, error) {
 	parseToken,err := jwt.ParseWithClaims(m.Token, &MyClaims{},
 		func(token *jwt.Token) (interface{}, error) {
-			return client.Global.UserConf.JwtKey, nil
+			return []byte(client.Global.UserConf.JwtKey), nil
 		})
 	if err != nil {
 		return "", fmt.Errorf("Unauthorized access to this resource%+v",err)
