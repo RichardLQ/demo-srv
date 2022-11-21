@@ -22,9 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	GetUserToken(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserRsp, error)
-	GetUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoRsp, error)
-	DelUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserRsp, error)
+	GetUserToken(ctx context.Context, in *GetUserTokenReq, opts ...grpc.CallOption) (*GetUserTokenRsp, error)
+	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
+	DelUserInfo(ctx context.Context, in *DelUserInfoReq, opts ...grpc.CallOption) (*DelUserInfoRsp, error)
 }
 
 type userServiceClient struct {
@@ -35,8 +35,8 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) GetUserToken(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserRsp, error) {
-	out := new(UserRsp)
+func (c *userServiceClient) GetUserToken(ctx context.Context, in *GetUserTokenReq, opts ...grpc.CallOption) (*GetUserTokenRsp, error) {
+	out := new(GetUserTokenRsp)
 	err := c.cc.Invoke(ctx, "/stub.UserService/GetUserToken", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -44,8 +44,8 @@ func (c *userServiceClient) GetUserToken(ctx context.Context, in *UserReq, opts 
 	return out, nil
 }
 
-func (c *userServiceClient) GetUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoRsp, error) {
-	out := new(UserInfoRsp)
+func (c *userServiceClient) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error) {
+	out := new(GetUserInfoRsp)
 	err := c.cc.Invoke(ctx, "/stub.UserService/GetUserInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -53,8 +53,8 @@ func (c *userServiceClient) GetUserInfo(ctx context.Context, in *UserInfoReq, op
 	return out, nil
 }
 
-func (c *userServiceClient) DelUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserRsp, error) {
-	out := new(UserRsp)
+func (c *userServiceClient) DelUserInfo(ctx context.Context, in *DelUserInfoReq, opts ...grpc.CallOption) (*DelUserInfoRsp, error) {
+	out := new(DelUserInfoRsp)
 	err := c.cc.Invoke(ctx, "/stub.UserService/DelUserInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -66,9 +66,9 @@ func (c *userServiceClient) DelUserInfo(ctx context.Context, in *UserInfoReq, op
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	GetUserToken(context.Context, *UserReq) (*UserRsp, error)
-	GetUserInfo(context.Context, *UserInfoReq) (*UserInfoRsp, error)
-	DelUserInfo(context.Context, *UserInfoReq) (*UserRsp, error)
+	GetUserToken(context.Context, *GetUserTokenReq) (*GetUserTokenRsp, error)
+	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error)
+	DelUserInfo(context.Context, *DelUserInfoReq) (*DelUserInfoRsp, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -76,13 +76,13 @@ type UserServiceServer interface {
 type UnimplementedUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) GetUserToken(context.Context, *UserReq) (*UserRsp, error) {
+func (UnimplementedUserServiceServer) GetUserToken(context.Context, *GetUserTokenReq) (*GetUserTokenRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserToken not implemented")
 }
-func (UnimplementedUserServiceServer) GetUserInfo(context.Context, *UserInfoReq) (*UserInfoRsp, error) {
+func (UnimplementedUserServiceServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
-func (UnimplementedUserServiceServer) DelUserInfo(context.Context, *UserInfoReq) (*UserRsp, error) {
+func (UnimplementedUserServiceServer) DelUserInfo(context.Context, *DelUserInfoReq) (*DelUserInfoRsp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DelUserInfo not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
@@ -99,7 +99,7 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 }
 
 func _UserService_GetUserToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserReq)
+	in := new(GetUserTokenReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -111,13 +111,13 @@ func _UserService_GetUserToken_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/stub.UserService/GetUserToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetUserToken(ctx, req.(*UserReq))
+		return srv.(UserServiceServer).GetUserToken(ctx, req.(*GetUserTokenReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserInfoReq)
+	in := new(GetUserInfoReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -129,13 +129,13 @@ func _UserService_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/stub.UserService/GetUserInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetUserInfo(ctx, req.(*UserInfoReq))
+		return srv.(UserServiceServer).GetUserInfo(ctx, req.(*GetUserInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_DelUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserInfoReq)
+	in := new(DelUserInfoReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -147,7 +147,7 @@ func _UserService_DelUserInfo_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/stub.UserService/DelUserInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).DelUserInfo(ctx, req.(*UserInfoReq))
+		return srv.(UserServiceServer).DelUserInfo(ctx, req.(*DelUserInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

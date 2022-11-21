@@ -4,22 +4,12 @@ option go_package = "./stub";
 import "google/api/annotations.proto";
 package stub;
 
-message UserReq {
-  string account = 1;
-  string password = 2;
-};
 
-message UserRsp {
-  int32 code = 1;
-  string msg = 2;
-  string data = 3;
-};
-
-message UserInfoReq {
+message GetUserInfoReq {
   int32 user_id = 1;
-  string token = 2;
 };
-message UserInfoRsp {
+
+message GetUserInfoRsp {
   int32 code = 1;
   string msg = 2;
   User user = 3;
@@ -34,19 +24,37 @@ message User {
   string desc = 6;
 };
 
+message GetUserTokenReq {
+  string account = 1;
+  string password = 2;
+};
+
+message GetUserTokenRsp {
+  int32 code = 1;
+  string msg = 2;
+  string data = 3;
+};
+message DelUserInfoReq {
+  int32 user_id = 1;
+};
+message DelUserInfoRsp {
+  int32 code = 1;
+  string msg = 2;
+  string data = 3;
+};
 service UserService {
-  rpc GetUserToken (UserReq) returns (UserRsp){
+  rpc GetUserToken (GetUserTokenReq) returns (GetUserTokenRsp){
     option (google.api.http) = {
       post: "/user/login",
       body: "*"
     };
   }
-  rpc GetUserInfo (UserInfoReq) returns (UserInfoRsp){
+  rpc GetUserInfo (GetUserInfoReq) returns (GetUserInfoRsp){
     option (google.api.http) = {
       get: "/user/getInfo/{user_id}"
     };
   }
-  rpc DelUserInfo (UserInfoReq) returns (UserRsp){
+  rpc DelUserInfo (DelUserInfoReq) returns (DelUserInfoRsp){
     option (google.api.http) = {
       delete: "/user/delInfo/{user_id}"
     };

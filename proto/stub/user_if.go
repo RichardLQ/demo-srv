@@ -3,6 +3,7 @@ package stub
 import (
 	"context"
 	"github.com/RichardLQ/user-srv/auth"
+	"github.com/RichardLQ/user-srv/refer"
 )
 
 var UserService = &userServiceServer{}
@@ -12,11 +13,16 @@ type userServiceServer struct {
 }
 
 //GetUserToken 获取token
-func (this *userServiceServer) GetUserToken(ctx context.Context, req *UserReq) (*UserRsp,error) {
-	rsp := UserRsp{
+func (this *userServiceServer) GetUserToken(ctx context.Context, req *GetUserTokenReq) (*GetUserTokenRsp,error) {
+	rsp := GetUserTokenRsp{
 		Code: 200,
 		Msg: "token请求成功",
 		Data: "",
+	}
+	if req.Account == "" || req.Password == "" {
+		rsp.Msg = "账号错误"
+		rsp.Code = refer.Login_Miss
+		return &rsp,nil
 	}
 	m := &auth.MyClaims{
 		UserName: req.Account,
@@ -33,8 +39,8 @@ func (this *userServiceServer) GetUserToken(ctx context.Context, req *UserReq) (
 }
 
 //GetUserInfo 获取用户信息
-func (this *userServiceServer) GetUserInfo(ctx context.Context, req *UserInfoReq) (rsp *UserInfoRsp, err error) {
-	rsp = &UserInfoRsp{
+func (this *userServiceServer) GetUserInfo(ctx context.Context, req *GetUserInfoReq) (rsp *GetUserInfoRsp, err error) {
+	rsp = &GetUserInfoRsp{
 		Code: 200,
 		User: &User{
 			Id:       req.UserId,
@@ -46,8 +52,8 @@ func (this *userServiceServer) GetUserInfo(ctx context.Context, req *UserInfoReq
 }
 
 //DelUserInfo 删除用户信息
-func (this *userServiceServer) DelUserInfo(ctx context.Context, req *UserInfoReq) (rsp *UserRsp, err error) {
-	rsp = &UserRsp{
+func (this *userServiceServer) DelUserInfo(ctx context.Context, req *DelUserInfoReq) (rsp *DelUserInfoRsp, err error) {
+	rsp = &DelUserInfoRsp{
 		Code: 200,
 		Msg:  "删除成功！",
 		Data: "一大堆杂数据",

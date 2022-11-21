@@ -32,7 +32,7 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 func request_UserService_GetUserToken_0(ctx context.Context, marshaler runtime.Marshaler, client UserServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserReq
+	var protoReq GetUserTokenReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -49,7 +49,7 @@ func request_UserService_GetUserToken_0(ctx context.Context, marshaler runtime.M
 }
 
 func local_request_UserService_GetUserToken_0(ctx context.Context, marshaler runtime.Marshaler, server UserServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserReq
+	var protoReq GetUserTokenReq
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -65,12 +65,8 @@ func local_request_UserService_GetUserToken_0(ctx context.Context, marshaler run
 
 }
 
-var (
-	filter_UserService_GetUserInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"user_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
-)
-
 func request_UserService_GetUserInfo_0(ctx context.Context, marshaler runtime.Marshaler, client UserServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserInfoReq
+	var protoReq GetUserInfoReq
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -88,13 +84,6 @@ func request_UserService_GetUserInfo_0(ctx context.Context, marshaler runtime.Ma
 	protoReq.UserId, err = runtime.Int32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "user_id", err)
-	}
-
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_UserService_GetUserInfo_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	msg, err := client.GetUserInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -103,7 +92,7 @@ func request_UserService_GetUserInfo_0(ctx context.Context, marshaler runtime.Ma
 }
 
 func local_request_UserService_GetUserInfo_0(ctx context.Context, marshaler runtime.Marshaler, server UserServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserInfoReq
+	var protoReq GetUserInfoReq
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -121,13 +110,6 @@ func local_request_UserService_GetUserInfo_0(ctx context.Context, marshaler runt
 	protoReq.UserId, err = runtime.Int32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "user_id", err)
-	}
-
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_UserService_GetUserInfo_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	msg, err := server.GetUserInfo(ctx, &protoReq)
@@ -135,12 +117,8 @@ func local_request_UserService_GetUserInfo_0(ctx context.Context, marshaler runt
 
 }
 
-var (
-	filter_UserService_DelUserInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"user_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
-)
-
 func request_UserService_DelUserInfo_0(ctx context.Context, marshaler runtime.Marshaler, client UserServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserInfoReq
+	var protoReq DelUserInfoReq
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -158,13 +136,6 @@ func request_UserService_DelUserInfo_0(ctx context.Context, marshaler runtime.Ma
 	protoReq.UserId, err = runtime.Int32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "user_id", err)
-	}
-
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_UserService_DelUserInfo_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	msg, err := client.DelUserInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -173,7 +144,7 @@ func request_UserService_DelUserInfo_0(ctx context.Context, marshaler runtime.Ma
 }
 
 func local_request_UserService_DelUserInfo_0(ctx context.Context, marshaler runtime.Marshaler, server UserServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UserInfoReq
+	var protoReq DelUserInfoReq
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -191,13 +162,6 @@ func local_request_UserService_DelUserInfo_0(ctx context.Context, marshaler runt
 	protoReq.UserId, err = runtime.Int32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "user_id", err)
-	}
-
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_UserService_DelUserInfo_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	msg, err := server.DelUserInfo(ctx, &protoReq)
